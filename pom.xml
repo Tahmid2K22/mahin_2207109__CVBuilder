@@ -134,7 +134,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.mahin_2207109__cvbuilder/com.example.mahin_2207109__cvbuilder.HelloApplication
+                                com.example.mahin_2207109__cvbuilder/com.example.mahin_2207109__cvbuilder.CV_Builder
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

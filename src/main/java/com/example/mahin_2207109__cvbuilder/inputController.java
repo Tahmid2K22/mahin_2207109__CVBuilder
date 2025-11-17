@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -19,8 +20,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class inputController {
+
+
 
     @FXML
     private TextField f_name;
@@ -55,11 +59,16 @@ public class inputController {
     @FXML
     private Button btnSelectImage;
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+
     @FXML
     private void prof_pic_upload(ActionEvent event) {
         FileChooser fc = new FileChooser();
         fc.setTitle("Choose Profile Picture");
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
+        fc.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+
         Stage stage = (Stage) btnSelectImage.getScene().getWindow();
 
         File selectedFile = fc.showOpenDialog(stage);
@@ -71,6 +80,16 @@ public class inputController {
 
     @FXML
     private void submit(ActionEvent event) throws IOException {
+        String validationError = validateForm();
+        if (validationError != null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Validation error");
+            alert.setHeaderText(null);
+            alert.setContentText(validationError);
+            alert.showAndWait();
+            return;
+        }
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CV_show.fxml"));
         Parent root = fxmlLoader.load();
 
@@ -78,8 +97,32 @@ public class inputController {
         showController.setData(collectInputs());
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
+        stage.setScene(new Scene(root,900,600));
         stage.show();
+    }
+
+
+    private String validateForm() {
+        String nameText = textOf(f_name).trim();
+        String emailText = textOf(email).trim();
+        String phoneText = textOf(p_num).replaceAll("\\s+", "");
+
+        if (nameText.isEmpty()) {
+            return "Full name is required.";
+        }
+        if (emailText.isEmpty()) {
+            return "Email is required.";
+        }
+        if (!EMAIL_PATTERN.matcher(emailText).matches()) {
+            return "Please enter a valid email address.";
+        }
+        if (!phoneText.isEmpty()) {
+            if (!phoneText.matches("\\d{7,15}")) {
+                return "Phone number must contain 7 to 15 digits.";
+            }
+        }
+
+        return null;
     }
 
     public Map<String, String> collectInputs() {
@@ -92,8 +135,13 @@ public class inputController {
         m.put("skills", textOf(skills));
         m.put("w_exp", textOf(w_exp));
         m.put("projects", textOf(projects));
-        String imgUrl = imgView.getImage().getUrl();
-        m.put("img_url",imgUrl);
+
+        String imgUrl = "";
+        if (imgView != null && imgView.getImage() != null) {
+            imgUrl = imgView.getImage().getUrl();
+            if (imgUrl == null) imgUrl = "";
+        }
+        m.put("img_url", imgUrl);
         return m;
     }
 

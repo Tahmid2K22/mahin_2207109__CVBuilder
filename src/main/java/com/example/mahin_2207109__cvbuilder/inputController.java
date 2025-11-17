@@ -1,4 +1,3 @@
-// language: java
 package com.example.mahin_2207109__cvbuilder;
 
 import javafx.fxml.FXML;
@@ -7,10 +6,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,22 +32,42 @@ public class inputController {
     private TextField p_num;
 
     @FXML
-    private TextField address;
+    private TextArea address;
 
     @FXML
-    private TextField edu_qual;
+    private TextArea edu_qual;
 
     @FXML
-    private TextField skills;
+    private TextArea skills;
 
     @FXML
-    private TextField w_exp;
+    private TextArea w_exp;
 
     @FXML
-    private TextField projects;
+    private TextArea projects;
 
     @FXML
     private Button sub_btn;
+
+    @FXML
+    private ImageView imgView;
+
+    @FXML
+    private Button btnSelectImage;
+
+    @FXML
+    private void prof_pic_upload(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Choose Profile Picture");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
+        Stage stage = (Stage) btnSelectImage.getScene().getWindow();
+
+        File selectedFile = fc.showOpenDialog(stage);
+        if (selectedFile != null) {
+            Image image = new Image(selectedFile.toURI().toString());
+            imgView.setImage(image);
+        }
+    }
 
     @FXML
     private void submit(ActionEvent event) throws IOException {
@@ -67,10 +92,12 @@ public class inputController {
         m.put("skills", textOf(skills));
         m.put("w_exp", textOf(w_exp));
         m.put("projects", textOf(projects));
+        String imgUrl = imgView.getImage().getUrl();
+        m.put("img_url",imgUrl);
         return m;
     }
 
-    private String textOf(TextField tf) {
-        return tf == null ? "" : tf.getText();
+    private String textOf(TextInputControl tic) {
+        return tic == null ? "" : tic.getText();
     }
 }

@@ -1,9 +1,17 @@
+// language: java
 package com.example.mahin_2207109__cvbuilder;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,9 +45,16 @@ public class inputController {
     private Button sub_btn;
 
     @FXML
-    private void submit(ActionEvent event) {
-        Map<String, String> inputs = collectInputs();
+    private void submit(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CV_show.fxml"));
+        Parent root = fxmlLoader.load();
 
+        show_controller showController = fxmlLoader.getController();
+        showController.setData(collectInputs());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     public Map<String, String> collectInputs() {

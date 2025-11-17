@@ -44,3 +44,9 @@
     -fx-text-fill: #222222;
     -fx-padding: 25 0 10 0;
 }
+
+.paragraph {
+    -fx-font-size: 15px;
+    -fx-text-fill: #4d4d4d;
+    -fx-line-spacing: 6px;
+}

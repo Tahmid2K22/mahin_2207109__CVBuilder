@@ -9,7 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mahin_2207109__cvbuilder.HomeController">
    <top>
-      <VBox alignment="TOP_CENTER" style="-fx-background-color: #1565C0;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" style="-fx-background-color: rgba(22,0,48,0.85);" BorderPane.alignment="CENTER">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #FFFFFF;" text="CV BUILDER" textAlignment="CENTER">
                <font>

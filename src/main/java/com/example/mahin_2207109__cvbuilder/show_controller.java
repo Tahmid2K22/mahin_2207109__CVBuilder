@@ -1,7 +1,8 @@
-// language: java
+
 package com.example.mahin_2207109__cvbuilder;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -68,6 +69,13 @@ public class show_controller {
                 pro_pic.setImage(null);
             }
         }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText("CV created succesfully");
+        alert.showAndWait();
+
     }
 
     private String nonNull(String s) {

@@ -16,9 +16,9 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mahin_2207109__cvbuilder.inputController">
    <top>
-      <Pane style="-fx-background-color: #1565C0;" BorderPane.alignment="CENTER">
+      <Pane style="-fx-background-color: rgba(22,0,48,0.85);;" BorderPane.alignment="CENTER">
          <children>
-            <Text fill="WHITE" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CV BUILDER" textAlignment="CENTER" wrappingWidth="867.0">
+            <Text fill="WHITE" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CV BUILDER" textAlignment="CENTER" wrappingWidth="867.0" >
                <font>
                   <Font size="35.0" />
                </font>

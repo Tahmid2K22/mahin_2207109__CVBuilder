@@ -42,7 +42,7 @@ A simple JavaFX application for creating and previewing a basic CV. Users can en
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/CV-Builder.git
+   git clone https://github.com/Tahmid2K22/mahin_2207109__CVBuilder.git
    ```
 2. Open the project in an IDE (IntelliJ recommended).
 3. Run the application
@@ -84,4 +84,5 @@ src/main/resources/
 
   * `inputController.java`
   * Related `.fxml` files
+
 

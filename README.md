@@ -1,41 +1,87 @@
-##CV Builder
-A small JavaFX Maven application to compose and preview a simple CV from user inputs, including an optional profile picture.
-Features
-Fill personal information, education, skills, work experience and projects.
-Upload and preview a profile picture.
-Client-side validation:
-Full name is required.
-Email is required and must match a basic email pattern.
-Phone number (optional) must be 7–15 digits if provided.
-Preview screen shows the composed CV.
+# CV Builder — JavaFX Maven Application
 
-#Quick Start
-Click "Create your CV" on the home screen.
-Fill the form fields in the input screen:
-Full Name (required)
-Email (required, validated)
-Phone Number (optional, digits only if provided)
-Address, Educational Qualification, Skills, Work Experience, Projects
-Click "Choose profile picture" to load an image (PNG/JPG/JPEG).
-Click "Create your CV" to open the preview.
-On successful creation an information dialog confirms CV creation and the preview screen displays the data and profile picture.
+A simple JavaFX application for creating and previewing a basic CV. Users can enter personal information, upload a profile picture, and view a formatted preview.
 
-#Project structure (key files)
-src/main/java/com/example/mahin_2207109__cvbuilder/CV_Builder.java — main application entry.
-src/main/java/com/example/mahin_2207109__cvbuilder/HomeController.java — home scene controller.
-src/main/java/com/example/mahin_2207109__cvbuilder/inputController.java — input form controller (validation, image selection, collecting inputs).
-src/main/java/com/example/mahin_2207109__cvbuilder/show_controller.java — preview controller (sets data into preview scene).
-src/main/resources/com/example/mahin_2207109__cvbuilder/cv_input.fxml — input form layout.
-src/main/resources/com/example/mahin_2207109__cvbuilder/CV_show.fxml — CV preview layout.
-src/main/resources/com/example/mahin_2207109__cvbuilder/Home.fxml — home screen layout.
-src/main/resources/CV_show.css — preview styling.
+## Features
 
-#Validation summary
-Full name: non-empty.
-Email: matches a simple regex (alphanumeric and common symbols).
-Phone: optional; if present must be 7–15 digits.
-Validation errors are shown via an error dialog and prevent navigation to the preview.
-Notes
-Profile pictures are loaded from file system URIs and passed as image URLs to the preview.
-If an invalid image URL or failed load occurs, the preview will show no image.
-To include additional fields or change validation rules, update inputController.java and the corresponding FXML layouts.
+* Personal Information Input
+
+  * Full Name (required)
+  * Email (required, validated)
+  * Phone Number (optional, digits only)
+  * Address
+  * Educational Qualification
+  * Skills
+  * Work Experience
+  * Projects
+
+* Profile Picture Upload
+
+  * Supports PNG, JPG, and JPEG
+  * Preview displayed in the CV view
+
+* Client-Side Validation
+
+  * Full Name must not be empty
+  * Email is validated with a regex
+  * Phone Number (optional): 7–15 digits
+
+* CV Preview Screen
+
+  * Displays all entered information
+  * Shows profile picture if provided
+  * Styled using CSS
+
+* Dialog-Based Feedback
+
+  * Error dialogs for invalid inputs
+  * Success dialog on CV creation
+
+## Quick Start
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/CV-Builder.git
+   ```
+2. Open the project in an IDE (IntelliJ recommended).
+3. Run the application
+4. Click "Create your CV" on the home screen.
+5. Fill in the form and optionally upload a profile picture.
+6. Click "Create your CV" to view the preview.
+
+## Project Structure
+
+```
+src/main/java/com/example/mahin_2207109__cvbuilder/
+  CV_Builder.java            // Main application
+  HomeController.java        // Home screen controller
+  inputController.java       // Input form, validation, image handling
+  show_controller.java       // CV preview controller
+
+src/main/resources/com/example/mahin_2207109__cvbuilder/
+  Home.fxml                  // Home screen layout
+  cv_input.fxml              // Input form layout
+  CV_show.fxml               // CV preview layout
+
+src/main/resources/
+  CV_show.css               // Styling for CV preview
+```
+
+## Validation Rules
+
+| Field        | Requirement                  |
+| ------------ | ---------------------------- |
+| Full Name    | Required                     |
+| Email        | Must match basic email regex |
+| Phone Number | Optional; 7–15 digits        |
+
+## Notes
+
+* Profile pictures are loaded using file-system URIs.
+* If image loading fails, the preview shows no picture.
+* To modify validation or add fields, update:
+
+  * `inputController.java`
+  * Related `.fxml` files
+

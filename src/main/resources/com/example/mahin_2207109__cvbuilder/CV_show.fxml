@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
@@ -36,6 +37,9 @@
                         <Label prefHeight="43.0" styleClass="name-title" stylesheets="@../../../CV_show.css" text="Phone    :  " />
                         <Label prefHeight="43.0" styleClass="name-title" stylesheets="@../../../CV_show.css" text="Address : " />
                      </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
                   </VBox>
                   <Label fx:id="phn" layoutX="152.0" layoutY="297.0" styleClass="name-title" stylesheets="@../../../CV_show.css" text="phn" />
                   <Label fx:id="addrs" layoutX="153.0" layoutY="341.0" styleClass="name-title" stylesheets="@../../../CV_show.css" text="add" />

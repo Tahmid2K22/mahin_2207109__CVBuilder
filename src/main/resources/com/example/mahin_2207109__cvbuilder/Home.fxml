@@ -33,9 +33,9 @@
                   <Font size="22.0" />
                </font>
             </Button>
-            <Button fx:id="home_view_btn" alignment="CENTER" mnemonicParsing="false" onAction="#view_cv" prefHeight="50.0" prefWidth="200.0" style="-fx-background-radius: 20; -fx-background-color: #212121; -fx-cursor: hand;" text="View all CV" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="home_view_btn" alignment="CENTER" mnemonicParsing="false" onAction="#view_cv" style="-fx-background-radius: 20; -fx-background-color: #212121; -fx-cursor: hand;" text="View all CV" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="22.0" />
+                  <Font size="22.0" />
                </font>
             </Button>
          </children>

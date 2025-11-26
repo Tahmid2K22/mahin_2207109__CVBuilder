@@ -1,12 +1,19 @@
-
 package com.example.mahin_2207109__cvbuilder;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.event.ActionEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -40,6 +47,9 @@ public class show_controller {
 
     @FXML
     private ImageView pro_pic;
+
+    @FXML
+    private javafx.scene.control.Button homeBtn;
 
     @FXML
     public void initialize() {
@@ -146,5 +156,23 @@ public class show_controller {
 
     private String nonNull(String s) {
         return s == null ? "" : s;
+    }
+
+    @FXML
+    private void handleHome(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to load Home view: " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 }

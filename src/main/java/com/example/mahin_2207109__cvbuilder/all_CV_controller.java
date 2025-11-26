@@ -190,12 +190,54 @@ public class all_CV_controller {
     }
 
     private void handleUpdate(int id) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Update CV");
-        alert.setHeaderText(null);
-        alert.setContentText("Update functionality for CV ID: " + id + " will be implemented soon.");
-        alert.showAndWait();
+        try {
+            database db = database.getInstance();
+            ResultSet rs = db.fetchAll();
 
+            Map<String, String> cvData = null;
+            while (rs != null && rs.next()) {
+                if (rs.getInt("id") == id) {
+                    cvData = new HashMap<>();
+                    cvData.put("f_name", rs.getString("name"));
+                    cvData.put("email", rs.getString("email"));
+                    cvData.put("p_num", String.valueOf(rs.getInt("phone")));
+                    cvData.put("address", rs.getString("address"));
+                    cvData.put("edu_qual", rs.getString("education"));
+                    cvData.put("skills", rs.getString("skills"));
+                    cvData.put("w_exp", rs.getString("work_experience"));
+                    cvData.put("projects", rs.getString("projects"));
+                    cvData.put("img_url", rs.getString("pro_pic"));
+                    break;
+                }
+            }
+
+            if (cvData == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("CV not found!");
+                alert.showAndWait();
+                return;
+            }
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cv_input.fxml"));
+            Parent root = fxmlLoader.load();
+
+            inputController inputCtrl = fxmlLoader.getController();
+            inputCtrl.enableUpdateMode(id, cvData);
+
+            Stage stage = (Stage) cvTable.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException | SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to load CV data: " + e.getMessage());
+            alert.showAndWait();
+            e.printStackTrace();
+        }
     }
 
     private void handleDelete(int id) {

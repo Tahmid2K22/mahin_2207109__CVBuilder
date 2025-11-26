@@ -24,6 +24,8 @@ import java.util.regex.Pattern;
 
 public class inputController {
 
+    private Integer cvId;
+    private boolean isUpdateMode = false;
 
     @FXML
     private TextField f_name;
@@ -102,17 +104,32 @@ public class inputController {
             }
         }
 
-        db.insertCV(
-                inputData.get("f_name"),
-                inputData.get("email"),
-                phoneInt,
-                inputData.get("address"),
-                inputData.get("edu_qual"),
-                inputData.get("skills"),
-                inputData.get("w_exp"),
-                inputData.get("projects"),
-                inputData.get("img_url")
-        );
+        if (isUpdateMode && cvId != null) {
+            db.updateCV(
+                    cvId,
+                    inputData.get("f_name"),
+                    inputData.get("email"),
+                    phoneInt,
+                    inputData.get("address"),
+                    inputData.get("edu_qual"),
+                    inputData.get("skills"),
+                    inputData.get("w_exp"),
+                    inputData.get("projects"),
+                    inputData.get("img_url")
+            );
+        } else {
+            db.insertCV(
+                    inputData.get("f_name"),
+                    inputData.get("email"),
+                    phoneInt,
+                    inputData.get("address"),
+                    inputData.get("edu_qual"),
+                    inputData.get("skills"),
+                    inputData.get("w_exp"),
+                    inputData.get("projects"),
+                    inputData.get("img_url")
+            );
+        }
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CV_show.fxml"));
         Parent root = fxmlLoader.load();
@@ -171,5 +188,45 @@ public class inputController {
 
     private String textOf(TextInputControl tic) {
         return tic == null ? "" : tic.getText();
+    }
+
+    public void setData(Map<String, String> data) {
+        f_name.setText(data.get("f_name"));
+        email.setText(data.get("email"));
+        p_num.setText(data.get("p_num"));
+        address.setText(data.get("address"));
+        edu_qual.setText(data.get("edu_qual"));
+        skills.setText(data.get("skills"));
+        w_exp.setText(data.get("w_exp"));
+        projects.setText(data.get("projects"));
+
+        String imgUrl = data.get("img_url");
+        if (imgUrl != null && !imgUrl.isEmpty()) {
+            imgView.setImage(new Image(imgUrl));
+        } else {
+            imgView.setImage(null);
+        }
+    }
+
+    public void enableUpdateMode(Integer cvId, Map<String, String> data) {
+        this.cvId = cvId;
+        this.isUpdateMode = true;
+        setData(data);
+        sub_btn.setText("Update");
+    }
+
+    public void disableUpdateMode() {
+        this.cvId = null;
+        this.isUpdateMode = false;
+        f_name.clear();
+        email.clear();
+        p_num.clear();
+        address.clear();
+        edu_qual.clear();
+        skills.clear();
+        w_exp.clear();
+        projects.clear();
+        imgView.setImage(null);
+        sub_btn.setText("Submit");
     }
 }

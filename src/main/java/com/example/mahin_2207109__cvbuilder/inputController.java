@@ -90,11 +90,40 @@ public class inputController {
             return;
         }
 
+        // Collect input data
+        Map<String, String> inputData = collectInputs();
+
+        // Save to database
+        database db = database.getInstance();
+        String phoneStr = inputData.get("p_num");
+        Integer phoneInt = null;
+        if (phoneStr != null && !phoneStr.trim().isEmpty()) {
+            try {
+                phoneInt = Integer.parseInt(phoneStr.replaceAll("\\s+", ""));
+            } catch (NumberFormatException e) {
+                // Handle if phone is not a valid integer
+                phoneInt = 0;
+            }
+        }
+
+        db.insertCV(
+                inputData.get("f_name"),
+                inputData.get("email"),
+                phoneInt,
+                inputData.get("address"),
+                inputData.get("edu_qual"),
+                inputData.get("skills"),
+                inputData.get("w_exp"),
+                inputData.get("projects"),
+                inputData.get("img_url")
+        );
+
+        // Display the CV
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CV_show.fxml"));
         Parent root = fxmlLoader.load();
 
         show_controller showController = fxmlLoader.getController();
-        showController.setData(collectInputs());
+        showController.setData(inputData);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root,900,600));

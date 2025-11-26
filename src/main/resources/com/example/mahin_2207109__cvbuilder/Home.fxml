@@ -33,6 +33,7 @@
                   <Font size="22.0" />
                </font>
             </Button>
+            <Button fx:id="home_view_btn" alignment="CENTER" mnemonicParsing="false" onAction="#view_cv" style="-fx-background-radius: 20; -fx-background-color: #212121;" text="View all CV" textAlignment="CENTER" textFill="WHITE"> </Button>
          </children>
          <BorderPane.margin>
             <Insets bottom="50.0" top="50.0" />

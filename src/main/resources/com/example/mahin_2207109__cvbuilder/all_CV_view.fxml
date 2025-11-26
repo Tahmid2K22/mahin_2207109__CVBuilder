@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.mahin_2207109__cvbuilder.all_CV_controller"
+            prefHeight="600.0" prefWidth="1200.0">
+
+    <children>
+        <TableView fx:id="cvTable" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="1172.0">
+                <columns>
+                 <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" />
+                 <TableColumn fx:id="nameColumn" prefWidth="120.0" text="Name" />
+                 <TableColumn fx:id="emailColumn" prefWidth="150.0" text="Email" />
+                 <TableColumn fx:id="phoneColumn" prefWidth="100.0" text="Phone" />
+                 <TableColumn fx:id="addressColumn" prefWidth="120.0" text="Address" />
+                 <TableColumn fx:id="educationColumn" prefWidth="150.0" text="Education" />
+                 <TableColumn fx:id="skillsColumn" prefWidth="150.0" text="Skills" />
+                 <TableColumn fx:id="workExperienceColumn" prefWidth="150.0" text="Work Experience" />
+                 <TableColumn fx:id="projectsColumn" prefWidth="150.0" text="Projects" />
+                </columns>
+        </TableView>
+    </children>
+
+
+</AnchorPane>

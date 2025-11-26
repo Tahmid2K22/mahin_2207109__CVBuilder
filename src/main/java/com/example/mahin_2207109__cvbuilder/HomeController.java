@@ -14,12 +14,34 @@ public class HomeController {
     @FXML
     void next_input_scene(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("CV_Input.fxml"));
+            var resourceUrl = getClass().getResource("cv_input.fxml");
+            if (resourceUrl == null) {
+                throw new IOException("Cannot find cv_input.fxml");
+            }
+            Parent root = FXMLLoader.load(resourceUrl);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            System.err.println("Error loading cv_input.fxml: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    void view_cv(ActionEvent event) {
+        try {
+            var resourceUrl = getClass().getResource("all_CV_view.fxml");
+            if (resourceUrl == null) {
+                throw new IOException("Cannot find all_CV_view.fxml");
+            }
+            Parent root = FXMLLoader.load(resourceUrl);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error loading all_CV_view.fxml: " + e.getMessage());
         }
     }
 }

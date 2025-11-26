@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class database {
 
-    private static final String DB_URL = "jdbc:sqlite:appdata.db";
+    private static final String DB_URL = "jdbc:sqlite:cv.db";
     private static database instance;
     private static Connection connection;
 

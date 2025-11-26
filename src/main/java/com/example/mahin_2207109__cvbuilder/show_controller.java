@@ -111,7 +111,7 @@ public class show_controller {
                 imgUrl = data.get("image");
             }
 
-            Integer phone = null;
+            Integer phone;
             if (phoneStr != null && !phoneStr.isBlank()) {
                 try {
                     phone = Integer.parseInt(phoneStr.trim());

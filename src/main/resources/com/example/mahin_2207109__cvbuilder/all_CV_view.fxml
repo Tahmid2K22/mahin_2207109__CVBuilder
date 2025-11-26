@@ -5,29 +5,47 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.mahin_2207109__cvbuilder.all_CV_controller"
-            prefHeight="600.0" prefWidth="1200.0">
+            prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #f5f5f5;">
 
     <children>
-        <TableView fx:id="cvTable" layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="1172.0">
-                <columns>
-                 <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" />
-                 <TableColumn fx:id="nameColumn" prefWidth="120.0" text="Name" />
-                 <TableColumn fx:id="emailColumn" prefWidth="150.0" text="Email" />
-                 <TableColumn fx:id="phoneColumn" prefWidth="100.0" text="Phone" />
-                 <TableColumn fx:id="addressColumn" prefWidth="120.0" text="Address" />
-                 <TableColumn fx:id="educationColumn" prefWidth="150.0" text="Education" />
-                 <TableColumn fx:id="skillsColumn" prefWidth="150.0" text="Skills" />
-                 <TableColumn fx:id="workExperienceColumn" prefWidth="150.0" text="Work Experience" />
-                 <TableColumn fx:id="projectsColumn" prefWidth="150.0" text="Projects" />
-                 <TableColumn fx:id="updateColumn" prefWidth="80.0" text="Update" />
-                 <TableColumn fx:id="deleteColumn" prefWidth="80.0" text="Delete" />
-                 <TableColumn fx:id="showColumn" prefWidth="80.0" text="Show" />
-                </columns>
-        </TableView>
+        <VBox layoutX="14.0" layoutY="14.0" prefHeight="572.0" prefWidth="1172.0" spacing="15.0">
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <children>
+                        <Label text="All CVs" style="-fx-font-size: 24px; -fx-text-fill: #333333;" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button fx:id="newCVBtn" onAction="#handleNewCV" text="+ New CV"
+                                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-size: 14px; -fx-padding: 10 20 10 20; -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.4), 8, 0, 0, 2);">
+                        </Button>
+                    </children>
+                </HBox>
+                <TableView fx:id="cvTable" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                    <columns>
+                     <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" style="-fx-alignment: CENTER;" />
+                     <TableColumn fx:id="nameColumn" prefWidth="120.0" text="Name" />
+                     <TableColumn fx:id="emailColumn" prefWidth="150.0" text="Email" />
+                     <TableColumn fx:id="phoneColumn" prefWidth="100.0" text="Phone" />
+                     <TableColumn fx:id="addressColumn" prefWidth="120.0" text="Address" />
+                     <TableColumn fx:id="educationColumn" prefWidth="150.0" text="Education" />
+                     <TableColumn fx:id="skillsColumn" prefWidth="150.0" text="Skills" />
+                     <TableColumn fx:id="workExperienceColumn" prefWidth="150.0" text="Work Experience" />
+                     <TableColumn fx:id="projectsColumn" prefWidth="150.0" text="Projects" />
+                     <TableColumn fx:id="updateColumn" prefWidth="80.0" text="Update" style="-fx-alignment: CENTER;" />
+                     <TableColumn fx:id="deleteColumn" prefWidth="80.0" text="Delete" style="-fx-alignment: CENTER;" />
+                     <TableColumn fx:id="showColumn" prefWidth="80.0" text="Show" style="-fx-alignment: CENTER;" />
+                    </columns>
+                </TableView>
+            </children>
+            <padding>
+                <Insets top="5.0" right="5.0" bottom="5.0" left="5.0" />
+            </padding>
+        </VBox>
     </children>
 
 

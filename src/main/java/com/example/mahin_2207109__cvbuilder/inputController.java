@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
 public class inputController {
 
 
-
     @FXML
     private TextField f_name;
 
@@ -90,10 +89,8 @@ public class inputController {
             return;
         }
 
-        // Collect input data
         Map<String, String> inputData = collectInputs();
 
-        // Save to database
         database db = database.getInstance();
         String phoneStr = inputData.get("p_num");
         Integer phoneInt = null;
@@ -101,7 +98,6 @@ public class inputController {
             try {
                 phoneInt = Integer.parseInt(phoneStr.replaceAll("\\s+", ""));
             } catch (NumberFormatException e) {
-                // Handle if phone is not a valid integer
                 phoneInt = 0;
             }
         }
@@ -118,7 +114,6 @@ public class inputController {
                 inputData.get("img_url")
         );
 
-        // Display the CV
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CV_show.fxml"));
         Parent root = fxmlLoader.load();
 

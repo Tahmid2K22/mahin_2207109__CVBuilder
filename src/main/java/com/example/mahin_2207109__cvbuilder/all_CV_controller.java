@@ -4,16 +4,13 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -79,7 +76,6 @@ public class all_CV_controller {
         workExperienceColumn.setCellValueFactory(new PropertyValueFactory<>("workExperience"));
         projectsColumn.setCellValueFactory(new PropertyValueFactory<>("projects"));
 
-        // Setup Update button column
         updateColumn.setCellFactory(new Callback<TableColumn<CVData, Void>, TableCell<CVData, Void>>() {
             @Override
             public TableCell<CVData, Void> call(TableColumn<CVData, Void> param) {
@@ -87,6 +83,7 @@ public class all_CV_controller {
                     private final Button updateBtn = new Button("Update");
 
                     {
+                        updateBtn.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 3; -fx-cursor: hand; -fx-font-size: 12px; -fx-padding: 5 15 5 15;");
                         updateBtn.setOnAction(event -> {
                             CVData data = getTableView().getItems().get(getIndex());
                             handleUpdate(data.getId());
@@ -106,7 +103,7 @@ public class all_CV_controller {
             }
         });
 
-        // Setup Delete button column
+
         deleteColumn.setCellFactory(new Callback<TableColumn<CVData, Void>, TableCell<CVData, Void>>() {
             @Override
             public TableCell<CVData, Void> call(TableColumn<CVData, Void> param) {
@@ -114,6 +111,7 @@ public class all_CV_controller {
                     private final Button deleteBtn = new Button("Delete");
 
                     {
+                        deleteBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-background-radius: 3; -fx-cursor: hand; -fx-font-size: 12px; -fx-padding: 5 15 5 15;");
                         deleteBtn.setOnAction(event -> {
                             CVData data = getTableView().getItems().get(getIndex());
                             handleDelete(data.getId());
@@ -133,7 +131,7 @@ public class all_CV_controller {
             }
         });
 
-        // Setup Show button column
+
         showColumn.setCellFactory(new Callback<TableColumn<CVData, Void>, TableCell<CVData, Void>>() {
             @Override
             public TableCell<CVData, Void> call(TableColumn<CVData, Void> param) {
@@ -141,6 +139,7 @@ public class all_CV_controller {
                     private final Button showBtn = new Button("Show");
 
                     {
+                        showBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 3; -fx-cursor: hand; -fx-font-size: 12px; -fx-padding: 5 15 5 15;");
                         showBtn.setOnAction(event -> {
                             CVData data = getTableView().getItems().get(getIndex());
                             handleShow(data.getId());
@@ -197,8 +196,6 @@ public class all_CV_controller {
         alert.setContentText("Update functionality for CV ID: " + id + " will be implemented soon.");
         alert.showAndWait();
 
-        // TODO: Implement update functionality
-        // You can load the CV data and open the input form with pre-filled data
     }
 
     private void handleDelete(int id) {
@@ -218,14 +215,13 @@ public class all_CV_controller {
             successAlert.setContentText("CV deleted successfully!");
             successAlert.showAndWait();
 
-            // Reload the data
             loadData();
         }
     }
 
     private void handleShow(int id) {
         try {
-            // Get CV data from database
+
             database db = database.getInstance();
             ResultSet rs = db.fetchAll();
 
@@ -255,14 +251,12 @@ public class all_CV_controller {
                 return;
             }
 
-            // Load CV_show view
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CV_show.fxml"));
             Parent root = fxmlLoader.load();
 
             show_controller showController = fxmlLoader.getController();
             showController.setData(cvData, false);
 
-            // Open in new window
             Stage stage = new Stage();
             stage.setTitle("CV Details - ID: " + id);
             stage.setScene(new Scene(root, 900, 600));
@@ -273,6 +267,27 @@ public class all_CV_controller {
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Failed to load CV: " + e.getMessage());
+            alert.showAndWait();
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleNewCV(ActionEvent event) {
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("cv_input.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to load CV input form: " + e.getMessage());
             alert.showAndWait();
             e.printStackTrace();
         }

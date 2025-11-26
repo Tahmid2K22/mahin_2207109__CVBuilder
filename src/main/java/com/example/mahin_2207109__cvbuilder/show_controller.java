@@ -9,7 +9,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import java.util.Map;
 
+
 public class show_controller {
+
+    private database db;
 
     @FXML
     private Text name;
@@ -38,7 +41,16 @@ public class show_controller {
     @FXML
     private ImageView pro_pic;
 
+    @FXML
+    public void initialize() {
+        db = database.getInstance();
+    }
+
     public void setData(Map<String, String> data) {
+        setData(data, true);
+    }
+
+    public void setData(Map<String, String> data, boolean showAlert) {
         if (data == null) return;
 
         name.setText(nonNull(data.get("f_name")));
@@ -70,12 +82,66 @@ public class show_controller {
             }
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText("CV created succesfully");
-        alert.showAndWait();
+        if (showAlert) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("CV created succesfully");
+            alert.showAndWait();
+        }
 
+    }
+
+
+    public void saveToDatabase(Map<String, String> data) {
+        if (data == null || db == null) return;
+
+        try {
+            String fname = data.get("f_name");
+            String emailVal = data.get("email");
+            String phoneStr = data.get("p_num");
+            String address = data.get("address");
+            String education = data.get("edu_qual");
+            String skills = data.get("skills");
+            String workExp = data.get("w_exp");
+            String projectsVal = data.get("projects");
+            String imgUrl = data.get("img_url");
+
+            if (imgUrl == null) {
+                imgUrl = data.get("image");
+            }
+
+            Integer phone = null;
+            if (phoneStr != null && !phoneStr.isBlank()) {
+                try {
+                    phone = Integer.parseInt(phoneStr.trim());
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid phone number format: " + phoneStr);
+                    e.printStackTrace();
+                    phone = 0;
+                }
+            } else {
+                phone = 0;
+            }
+
+            db.insertCV(
+                nonNull(fname),
+                nonNull(emailVal),
+                phone,
+                nonNull(address),
+                nonNull(education),
+                nonNull(skills),
+                nonNull(workExp),
+                nonNull(projectsVal),
+                imgUrl
+            );
+
+            System.out.println("CV saved to database successfully!");
+
+        } catch (Exception e) {
+            System.err.println("Error saving CV to database: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private String nonNull(String s) {

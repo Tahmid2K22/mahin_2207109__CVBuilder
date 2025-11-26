@@ -5,12 +5,25 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class all_CV_controller {
 
@@ -45,6 +58,15 @@ public class all_CV_controller {
     private TableColumn<CVData, String> projectsColumn;
 
     @FXML
+    private TableColumn<CVData, Void> updateColumn;
+
+    @FXML
+    private TableColumn<CVData, Void> deleteColumn;
+
+    @FXML
+    private TableColumn<CVData, Void> showColumn;
+
+    @FXML
     public void initialize() {
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -56,6 +78,87 @@ public class all_CV_controller {
         skillsColumn.setCellValueFactory(new PropertyValueFactory<>("skills"));
         workExperienceColumn.setCellValueFactory(new PropertyValueFactory<>("workExperience"));
         projectsColumn.setCellValueFactory(new PropertyValueFactory<>("projects"));
+
+        // Setup Update button column
+        updateColumn.setCellFactory(new Callback<TableColumn<CVData, Void>, TableCell<CVData, Void>>() {
+            @Override
+            public TableCell<CVData, Void> call(TableColumn<CVData, Void> param) {
+                return new TableCell<CVData, Void>() {
+                    private final Button updateBtn = new Button("Update");
+
+                    {
+                        updateBtn.setOnAction(event -> {
+                            CVData data = getTableView().getItems().get(getIndex());
+                            handleUpdate(data.getId());
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(updateBtn);
+                        }
+                    }
+                };
+            }
+        });
+
+        // Setup Delete button column
+        deleteColumn.setCellFactory(new Callback<TableColumn<CVData, Void>, TableCell<CVData, Void>>() {
+            @Override
+            public TableCell<CVData, Void> call(TableColumn<CVData, Void> param) {
+                return new TableCell<CVData, Void>() {
+                    private final Button deleteBtn = new Button("Delete");
+
+                    {
+                        deleteBtn.setOnAction(event -> {
+                            CVData data = getTableView().getItems().get(getIndex());
+                            handleDelete(data.getId());
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(deleteBtn);
+                        }
+                    }
+                };
+            }
+        });
+
+        // Setup Show button column
+        showColumn.setCellFactory(new Callback<TableColumn<CVData, Void>, TableCell<CVData, Void>>() {
+            @Override
+            public TableCell<CVData, Void> call(TableColumn<CVData, Void> param) {
+                return new TableCell<CVData, Void>() {
+                    private final Button showBtn = new Button("Show");
+
+                    {
+                        showBtn.setOnAction(event -> {
+                            CVData data = getTableView().getItems().get(getIndex());
+                            handleShow(data.getId());
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(showBtn);
+                        }
+                    }
+                };
+            }
+        });
 
 
         loadData();
@@ -85,6 +188,94 @@ public class all_CV_controller {
         }
 
         cvTable.setItems(data);
+    }
+
+    private void handleUpdate(int id) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Update CV");
+        alert.setHeaderText(null);
+        alert.setContentText("Update functionality for CV ID: " + id + " will be implemented soon.");
+        alert.showAndWait();
+
+        // TODO: Implement update functionality
+        // You can load the CV data and open the input form with pre-filled data
+    }
+
+    private void handleDelete(int id) {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Delete CV");
+        confirmAlert.setHeaderText(null);
+        confirmAlert.setContentText("Are you sure you want to delete CV ID: " + id + "?");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            database db = database.getInstance();
+            db.delete(id);
+
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            successAlert.setTitle("Success");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("CV deleted successfully!");
+            successAlert.showAndWait();
+
+            // Reload the data
+            loadData();
+        }
+    }
+
+    private void handleShow(int id) {
+        try {
+            // Get CV data from database
+            database db = database.getInstance();
+            ResultSet rs = db.fetchAll();
+
+            Map<String, String> cvData = null;
+            while (rs != null && rs.next()) {
+                if (rs.getInt("id") == id) {
+                    cvData = new HashMap<>();
+                    cvData.put("f_name", rs.getString("name"));
+                    cvData.put("email", rs.getString("email"));
+                    cvData.put("p_num", String.valueOf(rs.getInt("phone")));
+                    cvData.put("address", rs.getString("address"));
+                    cvData.put("edu_qual", rs.getString("education"));
+                    cvData.put("skills", rs.getString("skills"));
+                    cvData.put("w_exp", rs.getString("work_experience"));
+                    cvData.put("projects", rs.getString("projects"));
+                    cvData.put("img_url", rs.getString("pro_pic"));
+                    break;
+                }
+            }
+
+            if (cvData == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("CV not found!");
+                alert.showAndWait();
+                return;
+            }
+
+            // Load CV_show view
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CV_show.fxml"));
+            Parent root = fxmlLoader.load();
+
+            show_controller showController = fxmlLoader.getController();
+            showController.setData(cvData, false);
+
+            // Open in new window
+            Stage stage = new Stage();
+            stage.setTitle("CV Details - ID: " + id);
+            stage.setScene(new Scene(root, 900, 600));
+            stage.show();
+
+        } catch (IOException | SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to load CV: " + e.getMessage());
+            alert.showAndWait();
+            e.printStackTrace();
+        }
     }
 
     public static class CVData {
